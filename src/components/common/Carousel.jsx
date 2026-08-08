@@ -3,26 +3,29 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+import slideLaptops from "../../assets/images/carousel/slide-laptops.jpg";
+import slideAudio from "../../assets/images/carousel/slide-audio.jpg";
+import slideWearables from "../../assets/images/carousel/slide-wearables.jpg";
 
 const slides = [
   {
     title: "Next-Gen Laptops",
     subtitle: "Power meets portability. Up to 40% off flagship models.",
-    image: "/src/assets/images/carousel/slide-laptops.jpg",
+    image: slideLaptops,
     cta: "Shop Laptops",
     link: "/products?category=laptops",
   },
   {
     title: "Sound, Reimagined",
     subtitle: "Studio-quality audio gear for every budget.",
-    image: "/src/assets/images/carousel/slide-audio.jpg",
+    image: slideAudio,
     cta: "Shop Audio",
     link: "/products?category=audio",
   },
   {
     title: "Wear the Future",
     subtitle: "Smartwatches that track more, weigh less.",
-    image: "/src/assets/images/carousel/slide-wearables.jpg",
+    image: slideWearables,
     cta: "Shop Wearables",
     link: "/products?category=smartwatches",
   },
