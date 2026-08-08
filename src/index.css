@@ -1,0 +1,72 @@
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@400,500,600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-white font-body antialiased;
+    background-image:
+      radial-gradient(
+        circle at 20% 20%,
+        rgba(16, 185, 129, 0.08),
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 80% 60%,
+        rgba(52, 211, 153, 0.06),
+        transparent 40%
+      );
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-violet/50 rounded-full;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/60 backdrop-blur-md border border-border rounded-2xl;
+  }
+
+  .btn-glow {
+    @apply bg-accent-lime text-bg font-semibold px-6 py-3 rounded-full
+           hover:shadow-glow transition-all duration-300 hover:scale-[1.03];
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-lime to-accent-violet bg-clip-text text-transparent;
+  }
+}
