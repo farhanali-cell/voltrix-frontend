@@ -14,37 +14,43 @@ import heroLaptopVideo from "../assets/videos/hero-laptop.mp4";
 import heroSmartphoneVideo from "../assets/videos/hero-smartphone.mp4";
 import heroAccessoriesVideo from "../assets/videos/hero-accessories.mp4";
 import ProductCarousel from "../components/common/Carousel";
+import laptopImg from "../assets/images/categories/laptop/laptop1.jpg";
+import smartphoneImg from "../assets/images/categories/smartphones/phone1.jpg";
+import headphoneImg from "../assets/images/categories/headphones/headphone1.jpg";
+import smartwatchImg from "../assets/images/categories/smartwatches/watch1.jpg";
+import gamingImg from "../assets/images/categories/gaming/game1.jpg";
+import accessoriesImg from "../assets/images/categories/accessories/jwellary.jpg";
 
 const categories = [
   {
     name: "Laptops",
     slug: "laptops",
-    image: "/src/assets/images/categories/laptop/laptop1.jpg",
+    image: laptopImg,
   },
   {
     name: "Smartphones",
     slug: "smartphones",
-    image: "/src/assets/images/categories/smartphones/phone1.jpg",
+    image: smartphoneImg,
   },
   {
     name: "Audio",
     slug: "headphones",
-    image: "/src/assets/images/categories/headphones/headphone1.jpg",
+    image: headphoneImg,
   },
   {
     name: "Smartwatches",
     slug: "smartwatches",
-    image: "/src/assets/images/categories/smartwatches/watch1.jpg",
+    image: smartwatchImg,
   },
   {
     name: "Gaming",
     slug: "gaming",
-    image: "/src/assets/images/categories/gaming/game1.jpg",
+    image: gamingImg,
   },
   {
     name: "Accessories",
     slug: "accessories",
-    image: "/src/assets/images/categories/accessories/jwellary.jpg",
+    image: accessoriesImg,
   },
 ];
 
