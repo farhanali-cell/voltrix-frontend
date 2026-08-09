@@ -329,17 +329,25 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
-        </button>
+        {/* Mobile: cart + hamburger */}
+        <div className="md:hidden flex items-center gap-3">
+          <Link
+            to="/cart"
+            className="relative p-1.5 rounded-full hover:bg-card transition-colors"
+          >
+            <ShoppingCart className="w-5 h-5 text-white" />
+          </Link>
+          <button
+            className="text-white"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -381,6 +389,13 @@ export default function Navbar() {
                       className="block py-2.5 text-muted hover:text-accent-lime font-medium"
                     >
                       Dashboard
+                    </NavLink>
+                    <NavLink
+                      to="/profile"
+                      onClick={() => setMobileOpen(false)}
+                      className="block py-2.5 text-muted hover:text-accent-lime font-medium"
+                    >
+                      My Orders
                     </NavLink>
                     <button
                       onClick={() => {
