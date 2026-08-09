@@ -37,7 +37,7 @@ export default function Hero3D({ image = heroProductImg }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={handleMouseLeave}
       style={{ perspective: 1200 }}
-      className="relative w-full h-[420px] md:h-[520px] flex items-center justify-center"
+      className="relative w-full h-[420px] md:h-[520px] flex items-center justify-center overflow-hidden"
     >
       {/* Glow behind product */}
       <div className="absolute w-72 h-72 bg-accent-lime/20 blur-[100px] rounded-full" />
@@ -47,12 +47,12 @@ export default function Hero3D({ image = heroProductImg }) {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[380px] h-[380px] border border-border rounded-full"
+        className="absolute w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] border border-border rounded-full"
       />
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[320px] h-[320px] border border-dashed border-accent-violet/30 rounded-full"
+        className="absolute w-[220px] h-[220px] sm:w-[270px] sm:h-[270px] md:w-[320px] md:h-[320px] border border-dashed border-accent-violet/30 rounded-full"
       />
 
       {/* Tilted product */}

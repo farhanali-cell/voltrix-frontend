@@ -75,6 +75,32 @@ export default function OrderStatusCard({ order }) {
         </span>
       </div>
 
+      {order.items?.length > 0 && (
+        <div className="relative mb-6 pb-6 border-b border-border space-y-3">
+          {order.items.map((item, i) => (
+            <div
+              key={item.id || i}
+              className="flex items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center shrink-0">
+                  <ShoppingBag className="w-4 h-4 text-muted" />
+                </div>
+                <p className="text-sm font-medium truncate">
+                  {item.product_name ||
+                    item.product?.name ||
+                    item.name ||
+                    "Item"}
+                </p>
+              </div>
+              <p className="text-sm text-muted shrink-0">
+                x{item.quantity || 1}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border">
         <div className="flex items-center gap-3">
           <Calendar className="w-4 h-4 text-muted" />
@@ -98,7 +124,9 @@ export default function OrderStatusCard({ order }) {
           <CreditCard className="w-4 h-4 text-muted" />
           <div>
             <p className="text-muted text-xs">Total Amount</p>
-            <p className="text-sm font-medium">{formatPKR(order.total_price)}</p>
+            <p className="text-sm font-medium">
+              {formatPKR(order.total_price)}
+            </p>
           </div>
         </div>
       </div>
