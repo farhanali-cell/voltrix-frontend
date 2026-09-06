@@ -1,6 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutDashboard, Package, Bell, Settings, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  Bell,
+  Settings,
+  LogOut,
+  Zap,
+} from "lucide-react";
 
 const sidebarLinks = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
@@ -16,10 +23,20 @@ export default function Sidebar() {
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="hidden md:flex flex-col justify-between w-64 h-screen sticky top-0 
-                 bg-bg-soft border-r border-border px-4 py-8"
+                 bg-bg-soft border-r border-border px-4 py-6"
     >
       <div>
-        <nav className="flex flex-col gap-1 pt-16">
+        <Link to="/" className="flex items-center gap-2 px-2 mb-8 group">
+          <Zap
+            className="w-6 h-6 text-accent-lime group-hover:animate-glowPulse"
+            fill="currentColor"
+          />
+          <span className="font-display text-xl font-semibold tracking-tight">
+            Volt<span className="gradient-text">rix</span>
+          </span>
+        </Link>
+
+        <nav className="flex flex-col gap-1">
           {sidebarLinks.map((item) => (
             <NavLink
               key={item.path}

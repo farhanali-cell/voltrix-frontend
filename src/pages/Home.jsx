@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Zap, ShieldCheck, Truck, Headphones } from "lucide-react";
 import Navbar from "../components/common/Navbar";
@@ -85,6 +85,7 @@ const fadeUp = {
 const heroVideos = [heroLaptopVideo, heroSmartphoneVideo, heroAccessoriesVideo];
 
 export default function Home() {
+  const navigate = useNavigate();
   const [videoIndex, setVideoIndex] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingFeatured, setLoadingFeatured] = useState(true);
@@ -170,10 +171,15 @@ export default function Home() {
               size="lg"
               icon={ArrowRight}
               iconPosition="right"
+              onClick={() => navigate("/products")}
             >
               Shop Now
             </Button>
-            <Button variant="secondary" size="lg">
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => navigate("/products")}
+            >
               Explore Deals
             </Button>
           </div>

@@ -11,6 +11,17 @@ const Checkout = () => {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState("");
 
+  const [address, setAddress] = useState({
+    full_name: "",
+    phone: "",
+    address_line1: "",
+    address_line2: "",
+    city: "",
+    state: "",
+    postal_code: "",
+    country: "",
+  });
+
   useEffect(() => {
     getCart()
       .then((res) => setCart(res.data))
@@ -18,11 +29,34 @@ const Checkout = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const handleAddressChange = (e) => {
+    setAddress({ ...address, [e.target.name]: e.target.value });
+  };
+
+  const validateAddress = () => {
+    const required = [
+      "full_name",
+      "phone",
+      "address_line1",
+      "city",
+      "state",
+      "postal_code",
+      "country",
+    ];
+    return required.every((field) => address[field].trim() !== "");
+  };
+
   const handlePay = () => {
     setError("");
+
+    if (!validateAddress()) {
+      setError("Please fill in all required shipping address fields.");
+      return;
+    }
+
     setProcessing(true);
 
-    createCheckoutSession(couponCode || undefined)
+    createCheckoutSession(couponCode || undefined, address)
       .then((res) => {
         window.location.href = res.data.checkout_url;
       })
@@ -54,6 +88,9 @@ const Checkout = () => {
     );
   }
 
+  const inputClass =
+    "w-full bg-card border border-border rounded-full px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-accent-violet";
+
   return (
     <div className="min-h-screen bg-bg text-white">
       <Navbar />
@@ -84,6 +121,79 @@ const Checkout = () => {
           </div>
         </div>
 
+        <div className="glass-card p-5 mb-6">
+          <h2 className="font-display text-lg font-semibold mb-4">
+            Shipping Address
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input
+              type="text"
+              name="full_name"
+              value={address.full_name}
+              onChange={handleAddressChange}
+              placeholder="Full Name"
+              className={`${inputClass} sm:col-span-2`}
+            />
+            <input
+              type="text"
+              name="phone"
+              value={address.phone}
+              onChange={handleAddressChange}
+              placeholder="Phone Number"
+              className={`${inputClass} sm:col-span-2`}
+            />
+            <input
+              type="text"
+              name="address_line1"
+              value={address.address_line1}
+              onChange={handleAddressChange}
+              placeholder="Address Line 1"
+              className={`${inputClass} sm:col-span-2`}
+            />
+            <input
+              type="text"
+              name="address_line2"
+              value={address.address_line2}
+              onChange={handleAddressChange}
+              placeholder="Address Line 2 (optional)"
+              className={`${inputClass} sm:col-span-2`}
+            />
+            <input
+              type="text"
+              name="city"
+              value={address.city}
+              onChange={handleAddressChange}
+              placeholder="City"
+              className={inputClass}
+            />
+            <input
+              type="text"
+              name="state"
+              value={address.state}
+              onChange={handleAddressChange}
+              placeholder="State/Province"
+              className={inputClass}
+            />
+            <input
+              type="text"
+              name="postal_code"
+              value={address.postal_code}
+              onChange={handleAddressChange}
+              placeholder="Postal Code"
+              className={inputClass}
+            />
+            <input
+              type="text"
+              name="country"
+              value={address.country}
+              onChange={handleAddressChange}
+              placeholder="Country"
+              className={inputClass}
+            />
+          </div>
+        </div>
+
         <div className="mb-4">
           <label className="text-sm text-muted mb-1 block">
             Coupon code (optional)
@@ -93,7 +203,7 @@ const Checkout = () => {
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
             placeholder="e.g. WELCOME10"
-            className="w-full bg-card border border-border rounded-full px-4 py-2.5 text-sm text-white placeholder:text-muted focus:outline-none focus:border-accent-violet"
+            className={inputClass}
           />
         </div>
 

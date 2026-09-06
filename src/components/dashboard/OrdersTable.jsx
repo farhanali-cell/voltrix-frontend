@@ -43,6 +43,7 @@ export default function OrdersTable({ orders = [], onOrderCancelled }) {
 
   return (
     <div className="glass-card overflow-hidden">
+      {/* Desktop header row */}
       <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 border-b border-border text-xs text-muted font-medium uppercase tracking-wide">
         <div className="col-span-4">Order</div>
         <div className="col-span-2">Date</div>
@@ -61,53 +62,104 @@ export default function OrdersTable({ orders = [], onOrderCancelled }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="grid grid-cols-2 md:grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-card/50 transition-colors"
+              className="hover:bg-card/50 transition-colors"
             >
-              <div className="col-span-2 md:col-span-4 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center shrink-0">
-                  <Package className="w-4 h-4 text-accent-lime" />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-medium text-sm truncate">#{order.id}</p>
-                  <p className="text-muted text-xs truncate">
-                    {order.items?.length || 0} item(s)
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-span-1 md:col-span-2 text-sm text-muted">
-                {formatDate(order.created_at)}
-              </div>
-
-              <div className="col-span-1 md:col-span-2 text-sm font-medium">
-                {formatPKR(order.total_price)}
-              </div>
-
-              <div className="col-span-1 md:col-span-2">
-                <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-medium border capitalize ${
-                    statusStyles[order.status] || statusStyles.pending
-                  }`}
-                >
-                  {order.status}
-                </span>
-              </div>
-
-              <div className="col-span-1 md:col-span-2 flex justify-end items-center gap-4">
-                {canCancel && (
-                  <button
-                    onClick={() => handleCancel(order.id)}
-                    className="flex items-center gap-1 text-xs font-medium text-red-400 hover:text-red-300 transition-colors"
+              {/* Mobile stacked card layout */}
+              <div className="md:hidden flex flex-col gap-3 px-4 py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center shrink-0">
+                    <Package className="w-4 h-4 text-accent-lime" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium text-sm truncate">#{order.id}</p>
+                    <p className="text-muted text-xs truncate">
+                      {order.items?.length || 0} item(s)
+                    </p>
+                  </div>
+                  <span
+                    className={`shrink-0 px-3 py-1 rounded-full text-xs font-medium border capitalize ${
+                      statusStyles[order.status] || statusStyles.pending
+                    }`}
                   >
-                    <X className="w-3.5 h-3.5" /> Cancel
-                  </button>
-                )}
-                <Link
-                  to={`/track-order?id=${order.id}`}
-                  className="flex items-center gap-1 text-xs font-medium text-accent-lime hover:gap-2 transition-all"
-                >
-                  Track <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
+                    {order.status}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted">
+                    {formatDate(order.created_at)}
+                  </span>
+                  <span className="font-medium">
+                    {formatPKR(order.total_price)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-end gap-4 pt-1 border-t border-border/50">
+                  {canCancel && (
+                    <button
+                      onClick={() => handleCancel(order.id)}
+                      className="flex items-center gap-1 text-xs font-medium text-red-400 hover:text-red-300 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" /> Cancel
+                    </button>
+                  )}
+                  <Link
+                    to={`/track-order?id=${order.id}`}
+                    className="flex items-center gap-1 text-xs font-medium text-accent-lime hover:gap-2 transition-all"
+                  >
+                    Track <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Desktop grid layout */}
+              <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 items-center">
+                <div className="col-span-4 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center shrink-0">
+                    <Package className="w-4 h-4 text-accent-lime" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm truncate">#{order.id}</p>
+                    <p className="text-muted text-xs truncate">
+                      {order.items?.length || 0} item(s)
+                    </p>
+                  </div>
+                </div>
+
+                <div className="col-span-2 text-sm text-muted">
+                  {formatDate(order.created_at)}
+                </div>
+
+                <div className="col-span-2 text-sm font-medium">
+                  {formatPKR(order.total_price)}
+                </div>
+
+                <div className="col-span-2">
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-medium border capitalize ${
+                      statusStyles[order.status] || statusStyles.pending
+                    }`}
+                  >
+                    {order.status}
+                  </span>
+                </div>
+
+                <div className="col-span-2 flex justify-end items-center gap-4">
+                  {canCancel && (
+                    <button
+                      onClick={() => handleCancel(order.id)}
+                      className="flex items-center gap-1 text-xs font-medium text-red-400 hover:text-red-300 transition-colors"
+                    >
+                      <X className="w-3.5 h-3.5" /> Cancel
+                    </button>
+                  )}
+                  <Link
+                    to={`/track-order?id=${order.id}`}
+                    className="flex items-center gap-1 text-xs font-medium text-accent-lime hover:gap-2 transition-all"
+                  >
+                    Track <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           );

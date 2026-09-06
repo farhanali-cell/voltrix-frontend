@@ -37,11 +37,13 @@ export default function Navbar() {
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
   const catRef = useRef(null);
   const moreRef = useRef(null);
   const profileRef = useRef(null);
+  const mobileProfileRef = useRef(null);
 
   const isLoggedIn = !!localStorage.getItem("access_token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
@@ -90,6 +92,11 @@ export default function Navbar() {
         setMoreOpen(false);
       if (profileRef.current && !profileRef.current.contains(e.target))
         setProfileOpen(false);
+      if (
+        mobileProfileRef.current &&
+        !mobileProfileRef.current.contains(e.target)
+      )
+        setMobileProfileOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -100,6 +107,7 @@ export default function Navbar() {
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("user");
     setProfileOpen(false);
+    setMobileProfileOpen(false);
     navigate("/login");
   };
 
@@ -238,7 +246,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right side */}
+        {/* Right side (desktop) */}
         <div className="hidden md:flex items-center gap-4">
           {isLoggedIn && (
             <NotificationDropdown
@@ -329,7 +337,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile: cart + hamburger */}
+        {/* Mobile: cart + avatar + hamburger */}
         <div className="md:hidden flex items-center gap-3">
           <Link
             to="/cart"
@@ -337,6 +345,49 @@ export default function Navbar() {
           >
             <ShoppingCart className="w-5 h-5 text-white" />
           </Link>
+
+          {isLoggedIn && (
+            <div ref={mobileProfileRef} className="relative">
+              <button onClick={() => setMobileProfileOpen(!mobileProfileOpen)}>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-lime to-accent-violet flex items-center justify-center">
+                  <User className="w-4 h-4 text-bg" />
+                </div>
+              </button>
+              <AnimatePresence>
+                {mobileProfileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-3 w-48 glass-card overflow-hidden z-50 origin-top-right"
+                  >
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setMobileProfileOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted hover:text-accent-lime hover:bg-card/60 transition-colors"
+                    >
+                      <LayoutDashboard className="w-4 h-4" /> Dashboard
+                    </Link>
+                    <Link
+                      to="/profile"
+                      onClick={() => setMobileProfileOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-muted hover:text-accent-lime hover:bg-card/60 transition-colors"
+                    >
+                      <Package className="w-4 h-4" /> My Orders
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-card/60 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" /> Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
           <button
             className="text-white"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -360,7 +411,7 @@ export default function Navbar() {
             transition={{ duration: 0.3 }}
             className="md:hidden overflow-hidden glass-card mx-4 mt-3"
           >
-            <div className="flex flex-col p-4 gap-1">
+            <div className="flex flex-col p-4 gap-1 max-h-[65vh] overflow-y-auto">
               {[
                 { label: "Home", path: "/" },
                 { label: "Products", path: "/products" },
@@ -380,52 +431,24 @@ export default function Navbar() {
                 </NavLink>
               ))}
 
-              <div className="border-t border-border mt-2 pt-3">
-                {isLoggedIn ? (
-                  <>
-                    <NavLink
-                      to="/dashboard"
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2.5 text-muted hover:text-accent-lime font-medium"
-                    >
-                      Dashboard
-                    </NavLink>
-                    <NavLink
-                      to="/profile"
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2.5 text-muted hover:text-accent-lime font-medium"
-                    >
-                      My Orders
-                    </NavLink>
-                    <button
-                      onClick={() => {
-                        setMobileOpen(false);
-                        handleLogout();
-                      }}
-                      className="w-full text-left py-2.5 text-red-400 font-medium"
-                    >
-                      Logout
-                    </button>
-                  </>
-                ) : (
-                  <div className="flex gap-3 pt-1">
-                    <Link
-                      to="/login"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex-1 text-center py-2.5 rounded-full border border-border text-sm font-medium"
-                    >
-                      Log In
-                    </Link>
-                    <Link
-                      to="/register"
-                      onClick={() => setMobileOpen(false)}
-                      className="flex-1 text-center py-2.5 rounded-full bg-accent-lime text-bg text-sm font-semibold"
-                    >
-                      Sign Up
-                    </Link>
-                  </div>
-                )}
-              </div>
+              {!isLoggedIn && (
+                <div className="border-t border-border mt-2 pt-3 flex gap-3">
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex-1 text-center py-2.5 rounded-full border border-border text-sm font-medium"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex-1 text-center py-2.5 rounded-full bg-accent-lime text-bg text-sm font-semibold"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
